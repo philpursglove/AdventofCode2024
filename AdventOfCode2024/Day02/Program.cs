@@ -1,4 +1,4 @@
-﻿var input = File.ReadAllLines("SampleFile.txt");
+﻿var input = File.ReadAllLines("InputFile.txt");
 
 List<Report> reports = new List<Report>();
 
@@ -7,7 +7,7 @@ foreach (var line in input)
     reports.Add(new Report(line));
 }
 
-Console.WriteLine(reports.Count(r => r.Safe()));
+Console.WriteLine(reports.Count(r => r.Safe));
 Console.ReadLine();
 
 
@@ -27,21 +27,35 @@ public class Report
 
     List<int> Levels { get; set; }
 
-    private bool AllAscending()
+    public bool AllAscending()
     {
-        return Levels == Levels.OrderBy(e => e);
+        var elements = Levels.ToArray();
+
+        for (int i = 0; i < elements.GetLength(0) - 1; i++)
+        {
+            if (elements[i + 1] <= elements[i]) return false;
+        }
+
+        return true;
     }
 
-    private bool AllDescending()
+    public bool AllDescending()
     {
-        return Levels == Levels.OrderByDescending(e => e);
+        var elements = Levels.ToArray();
+
+        for (int i = 0; i < elements.GetLength(0) - 1; i++)
+        {
+            if (elements[i + 1] >= elements[i]) return false;
+        }
+
+        return true;
     }
 
     private bool HasGaps()
     {
         var elements = Levels.ToArray();
 
-        for (int i = 0; i < elements.GetLength(0); i++)
+        for (int i = 0; i < elements.GetLength(0) - 1; i++)
         {
             var diff = Math.Abs(elements[i] - elements[i + 1]);
 
@@ -54,8 +68,7 @@ public class Report
         return false;
     }
 
-    public bool Safe()
-    {
-        return (AllAscending() || AllDescending()) && !HasGaps();
-    }
+
+
+    public bool Safe => (AllAscending() || AllDescending()) && !HasGaps();
 }
