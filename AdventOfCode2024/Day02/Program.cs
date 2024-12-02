@@ -10,6 +10,8 @@ foreach (var line in input)
 Console.WriteLine(reports.Count(r => r.Safe));
 Console.ReadLine();
 
+Console.WriteLine(reports.Count(r => r.SafeAfterDampening()));
+Console.ReadLine();
 
 public class Report
 {
@@ -25,7 +27,12 @@ public class Report
         }
     }
 
-    List<int> Levels { get; set; }
+    public Report(List<int> newLevels)
+    {
+        Levels = newLevels;
+    }
+
+    public List<int> Levels { get; set; }
 
     public bool AllAscending()
     {
@@ -71,4 +78,18 @@ public class Report
 
 
     public bool Safe => (AllAscending() || AllDescending()) && !HasGaps();
+
+    public bool SafeAfterDampening()
+    {
+        List<Report> DampenedReports = new List<Report>();
+
+        for (int i = 0; i < Levels.Count; i++)
+        {
+            var newLevels = new List<int>(Levels);
+            newLevels.RemoveAt(i);
+            DampenedReports.Add(new Report(newLevels));
+        }
+
+        return DampenedReports.Any(r => r.Safe);
+    }
 }
