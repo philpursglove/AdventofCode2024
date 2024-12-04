@@ -2,15 +2,15 @@
 {
     public static class StringExtensions
     {
-        public static string[,] ToGrid<T>(this string[] strings)
+        public static string[,] ToGrid(this string[] strings)
         {
             string[,] grid = new string[strings.First().Length, strings.Length];
 
-            for (int i = 0; i < strings.Length; i++)
+            for (int y = 0; y < strings.Length; y++)
             {
-                for (int j = 0; j < strings[i].Length; j++)
+                for (int x = 0; x < strings[y].Length; x++)
                 {
-                    grid[i, j] = strings[i].Substring(j, 1);
+                    grid[x, y] = strings[y].Substring(x, 1);
                 }
             }
 
