@@ -1,6 +1,6 @@
 ﻿using AdventUtilities;
 
-var input = File.ReadAllLines("SampleFile.txt");
+var input = File.ReadAllLines("InputFile.txt");
 
 string[,] grid = input.ToGrid();
 
@@ -72,6 +72,39 @@ for (int x = 0; x < grid.GetUpperBound(0) + 1; x++)
 
         }
     }
+}
+
+for (int y = 0; y < grid.GetUpperBound(1) - 2; y++)
+{
+    for (int x = 0; x < grid.GetUpperBound(0) - 2; x++)
+    {
+        string diagonal = string.Empty;
+        for (int position = 0; position < 4; position++)
+        {
+            diagonal += grid[x + position, y + position];
+        }
+        if (diagonal is "XMAS" or "SAMX")
+        {
+            foundCoordinates.Add(new Tuple<Coordinate, Coordinate>(new Coordinate(x, y), new Coordinate(x + 3, y + 3)));
+        }
+    }
+}
+
+for (int y = 0; y < grid.GetUpperBound(1) - 2; y++)
+{
+    for (int x = grid.GetUpperBound(0); x > 2; x--)
+    {
+        string diagonal = string.Empty;
+        for (int position = 0; position < 4; position++)
+        {
+            diagonal += grid[x - position, y + position];
+        }
+        if (diagonal is "XMAS" or "SAMX")
+        {
+            foundCoordinates.Add(new Tuple<Coordinate, Coordinate>(new Coordinate(x, y), new Coordinate(x - 3, y + 3)));
+        }
+    }
+
 }
 
 
