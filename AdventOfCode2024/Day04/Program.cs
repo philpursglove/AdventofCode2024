@@ -110,3 +110,24 @@ for (int y = 0; y < grid.GetUpperBound(1) - 2; y++)
 
 Console.Write(foundCoordinates.Count);
 Console.ReadLine();
+
+int found = 0;
+for (int y = 1; y < grid.GetUpperBound(1); y++)
+{
+    for (int x = 1; x < grid.GetUpperBound(0); x++)
+    {
+        if (grid[x, y] == "A")
+        {
+            var leftDiagonal = grid[x - 1, y - 1] + grid[x,y] + grid[x + 1, y + 1];
+            var rightDiagonal = grid[x + 1, y - 1] + grid[x,y] + grid[x - 1, y + 1];
+
+            if ((leftDiagonal is "MAS" or "SAM") && (rightDiagonal is "MAS" or "SAM"))
+            {
+                found++;
+            }
+        }
+    }
+}
+
+Console.WriteLine(found);
+Console.ReadLine();
