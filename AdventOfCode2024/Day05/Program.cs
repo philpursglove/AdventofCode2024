@@ -46,6 +46,8 @@ foreach (var updatesLine in updatesLines)
 
 List<List<int>> validUpdates = new List<List<int>>();
 
+List<List<int>> invalidUpdates = new List<List<int>>();
+
 foreach (var update in updates)
 {
     bool valid = true;
@@ -66,6 +68,10 @@ foreach (var update in updates)
     {
         validUpdates.Add(update);
     }
+    else
+    {
+        invalidUpdates.Add(update);
+    }
 }
 
 var total = 0;
@@ -76,5 +82,37 @@ foreach (var validUpdate in validUpdates)
     total += midItem;
 }
 
+Console.WriteLine(total);
+Console.ReadLine();
+
+List<List<int>> correctedUpdates = new List<List<int>>();
+
+foreach (var invalidUpdate in invalidUpdates)
+{
+    IEnumerable<Tuple<int, int>> relevantRules =
+        rules.Where(r => invalidUpdate.Contains(r.Item1) && invalidUpdate.Contains(r.Item2));
+
+    List<Tuple<int, int>> rulesOrder = new List<Tuple<int, int>>();
+
+    foreach (var updateEntry in invalidUpdate)
+    {
+        rulesOrder.Add(new Tuple<int, int>(updateEntry, relevantRules.Count(r => r.Item1 == updateEntry)));
+    }
+
+    List<int> correctedUpdate = new List<int>();
+    foreach (var tuple in rulesOrder.OrderByDescending(r => r.Item2))
+    {
+        correctedUpdate.Add(tuple.Item1);
+    }
+    correctedUpdates.Add(correctedUpdate);
+}
+
+total = 0;
+
+foreach (var validUpdate in correctedUpdates)
+{
+    var midItem = validUpdate[((validUpdate.Count + 1) / 2) - 1];
+    total += midItem;
+}
 Console.WriteLine(total);
 Console.ReadLine();
