@@ -171,5 +171,32 @@
         {
             return str.All(char.IsNumber);
         }
+
+        public static Coordinate Find(this string[,] grid, string searchText)
+        {
+            for (int y = 0; y < grid.GetUpperBound(1) + 1; y++)
+            {
+                for (int x = 0; x < grid.GetUpperBound(0) + 1; x++)
+                {
+                    if (grid[x, y] == searchText)
+                    {
+                        return new Coordinate(x, y);
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    public enum Direction
+    {
+        Up = 0,
+        Right = 1,
+        Down = 2,
+        Left = 3,
+        North = 0,
+        East = 1,
+        South = 2,
+        West = 3
     }
 }
