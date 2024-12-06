@@ -11,14 +11,15 @@ var currentPosition = startingPosition;
 var direction = Direction.Up;
 
 List<Coordinate> visited = new List<Coordinate>();
-
+List<Tuple<Coordinate, Direction>> changeOfDirection = new List<Tuple<Coordinate, Direction>>();
+     
 visited.Add(currentPosition);
 
 bool onTheGrid = true;
 
+var peekNextLocation = "";
 while (onTheGrid)
 {
-    var peekNextLocation = "";
     switch (direction)
     {
         case Direction.Up:
@@ -72,12 +73,10 @@ while (onTheGrid)
             break;
     }
 
-    if (!visited.Contains(currentPosition))
+    if (!visited.Any(v => v.X == currentPosition.X && v.Y == currentPosition.Y))
     {
         visited.Add(currentPosition);
     }
-
-    Console.WriteLine($"X: {currentPosition.X}, Y: {currentPosition.Y}");
 
     if (peekNextLocation == "#")
     {
@@ -96,9 +95,11 @@ while (onTheGrid)
                 direction = Direction.Down;
                 break;
         }
+        changeOfDirection.Add(new Tuple<Coordinate, Direction>(currentPosition, direction));
     }
 }
 
 Console.WriteLine(visited.Count);
 
 Console.ReadLine();
+
