@@ -8,10 +8,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdventUtilities\AdventUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="InputFile.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="SampleFile.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFile2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFile3.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
