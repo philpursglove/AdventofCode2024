@@ -103,3 +103,13 @@ Console.WriteLine(visited.Count);
 
 Console.ReadLine();
 
+foreach (var tuple in changeOfDirection)
+{
+    var anchor = tuple.Item1;
+
+    switch (tuple.Item2)
+    {
+        case Direction.Right:
+
+    }
+}
