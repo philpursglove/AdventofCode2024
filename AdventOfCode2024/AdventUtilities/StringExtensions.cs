@@ -29,5 +29,19 @@
 
             return ints;
         }
+
+        public static List<long> ParseLongs(this string input, string separator)
+        {
+            List<long> longs = new List<long>();
+
+            string[] values = input.Trim().Split(separator);
+            foreach (var value in values)
+            {
+                longs.Add(int.Parse(value));
+            }
+
+            return longs;
+        }
+
     }
 }
