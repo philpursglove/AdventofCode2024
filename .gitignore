@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 InputFile.txt
-SampleFile.txt
+SampleFile*.txt
