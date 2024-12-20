@@ -4,7 +4,7 @@ var input = File.ReadAllLines("SampleFile3.txt");
 
 var grid = input.ToGrid();
 
-var frequencyList = grid.FindDistinctEntries(new List<string>(){".", "#"});
+var frequencyList = grid.FindDistinctEntries(new List<string>() { ".", "#" });
 var antinodes = new List<Coordinate>();
 
 foreach (var frequency in frequencyList)
@@ -118,99 +118,84 @@ foreach (var frequency in frequencyList)
     {
         List<Coordinate> otherEntries = entries.Except(new List<Coordinate>() { entry }).ToList();
 
+        var gridWidth = grid.GetUpperBound(0);
+        var gridHeight = grid.GetUpperBound(1);
+
         foreach (var otherEntry in otherEntries)
         {
-            Coordinate potential = new Coordinate(0,0);
+            var diffX = Math.Abs(entry.X - otherEntry.X);
+            var diffY = Math.Abs(entry.Y - otherEntry.Y);
+
+            var currentX = entry.X;
+            var currentY = entry.Y;
+
+            Coordinate potential = new Coordinate(0, 0);
             if (entry.X < otherEntry.X)
             {
                 if (entry.Y < otherEntry.Y)
                 {
-                    var diffX = Math.Abs(entry.X - otherEntry.X);
-                    var diffY = Math.Abs(entry.Y - otherEntry.Y);
-
-                    var currentX = entry.X;
-                    var currentY = entry.Y;
-
                     do
                     {
                         potential.X = currentX - diffX;
                         potential.Y = currentY - diffY;
 
-                        if (potential.X >= 0 && potential.Y >= 0)
+                        if (potential is { X: >= 0, Y: >= 0 })
                         {
                             antinodes.Add(potential);
                             currentX = potential.X;
                             currentY = potential.Y;
                         }
-                    } while (potential.X >= 0 && potential.Y >= 0);
+                    } while (potential is { X: >= 0, Y: >= 0 });
 
                 }
                 else
                 {
-                    var diffX = Math.Abs(entry.X - otherEntry.X);
-                    var diffY = Math.Abs(entry.Y - otherEntry.Y);
-
-                    var currentX = entry.X;
-                    var currentY = entry.Y;
-
                     do
                     {
                         potential.X = currentX - diffX;
                         potential.Y = currentY + diffY;
 
-                        if (potential.X >= 0 && potential.Y <= grid.GetUpperBound(1))
+                        if (potential.X >= 0 && potential.Y <= gridHeight)
                         {
                             antinodes.Add(potential);
                             currentX = potential.X;
                             currentY = potential.Y;
                         }
-                    } while (potential.X >= 0 && potential.Y <= grid.GetUpperBound(1));
+                    } while (potential.X >= 0 && potential.Y <= gridHeight);
                 }
             }
             else
             {
                 if (entry.Y < otherEntry.Y)
                 {
-                    var diffX = Math.Abs(entry.X - otherEntry.X);
-                    var diffY = Math.Abs(entry.Y - otherEntry.Y);
-
-                    var currentX = entry.X;
-                    var currentY = entry.Y;
-
                     do
                     {
                         potential.X = currentX + diffX;
                         potential.Y = currentY - diffY;
 
-                        if (potential.X <= grid.GetUpperBound(0) && potential.Y >= 0)
+                        if (potential.X <= gridWidth && potential.Y >= 0)
                         {
                             antinodes.Add(potential);
                             currentX = potential.X;
                             currentY = potential.Y;
                         }
-                    } while (potential.X <= grid.GetUpperBound(0) && potential.Y >= 0);
+                    } while (potential.X <= gridWidth && potential.Y >= 0);
 
                 }
                 else
                 {
-                    var diffX = Math.Abs(entry.X - otherEntry.X);
-                    var diffY = Math.Abs(entry.Y - otherEntry.Y);
-
-                    var currentX = entry.X;
-                    var currentY = entry.Y;
-
                     do
                     {
                         potential.X = currentX + diffX;
                         potential.Y = currentY + diffY;
 
-                        if (potential.X <= grid.GetUpperBound(0) && potential.Y <= grid.GetUpperBound(1))
+                        if (potential.X <= gridWidth && potential.Y <= gridHeight)
                         {
                             antinodes.Add(potential);
                             currentX = potential.X;
                             currentY = potential.Y;
                         }
-                    } while (potential.X <= grid.GetUpperBound(0) && potential.Y <= grid.GetUpperBound(1));
+                    } while (potential.X <= gridWidth && potential.Y <= gridHeight);
 
                 }
 
@@ -221,22 +206,4 @@ foreach (var frequency in frequencyList)
 }
 
 Console.WriteLine(antinodes.Count());
-//Console.WriteLine(antinodes.Distinct(new CoordinateComparer()).Count());
 Console.ReadLine();
-
-//public class CoordinateComparer : IEqualityComparer<Coordinate>
-//{
-//    public bool Equals(Coordinate? x, Coordinate? y)
-//    {
-//        if (ReferenceEquals(x, y)) return true;
-//        if (x is null) return false;
-//        if (y is null) return false;
-//        if (x.GetType() != y.GetType()) return false;
-//        return x.X == y.X && x.Y == y.Y;
-//    }
-
-//    public int GetHashCode(Coordinate obj)
-//    {
-//        return HashCode.Combine(obj.X, obj.Y);
-//    }
-//}
